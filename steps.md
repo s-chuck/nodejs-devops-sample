@@ -16,3 +16,42 @@ COPY . .(copy everything from your local working directory to the container work
 
 #Now the docker file is created , we are shifting our project to docker -> (docker build -t nodejs-sample-app .) -> (docker run -p 5000:5000 nodejs-sample-app)
 -->
+
+
+
+<!-- STEP 2 -->
+<!-- 
+# Now the next thing is setting up CI pipeline 
+# first we have to create this inside .github/workflows/ as we are going to use github actions.
+# After that let's come to the syntax why are we writing what we are writing.
+name: CI Pipeline(name of our workflow it appears in the github actions workflow too.)
+
+on:(The name is itself valid it means that execute this when we are pushing to main branch or pulling from there.)
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:(jobs are something like set of steps in a workflow that is executed on a same runner. Jobs run in parallel by default.)
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4(we can find these from github marketplace. Checkout is used to extract code from repo and pasting it on runner.)
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4(once the code is extracted using checkout then setup node js)
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run basic lint or test (optional)
+        run: echo "No tests configured, skipping for now"
+
+      - name: Build Docker image
+        run: docker build -t nodejs-sample-app .
+
+ -->
