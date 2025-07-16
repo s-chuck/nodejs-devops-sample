@@ -55,3 +55,26 @@ jobs:(jobs are something like set of steps in a workflow that is executed on a s
         run: docker build -t nodejs-sample-app .
 
  -->
+
+
+ <!-- Step 3 -->
+ <!-- 
+ #Now we have to find a way to build and upload our image in docker hub this step is important as later we need to pull this image from docker to use it in k8s and helm.
+ #Before that we have to save our docker hub username and pwd in our github actions secrets : settings -> secret and variables -> Actions -> New repo secret , it is essential so that we don't enter secrets explicitly.
+ #Let's come to code now
+        - name: Login to docker hub
+          uses: docker/login-action@v3(can easily find in github marketplace)
+          with:
+            username: ${{ secrets.DOCKER_USERNAME }}(retreiving username and pwd from secrets.)
+            password: ${{ secrets.DOCKER_PASSWORD }}
+        
+        - name: Build and Push Image to docker(Building the image and pushing it using github action libraries.)
+          uses: docker/build-push-action@v6
+          with:
+            push: true
+            tags: |  (This is a trick when we have to use multiple lines put a pipe | it symbolizes we gonna use many lines.just a trick to make code clean.)
+
+                (Now why are we using two tags for a same image it's because the latest one is for production and one with github.sha(first of all sha return commit id of the latest commit so) the commit id , if something goes wrong and we have to rollback so we can sort according to the commit id.)            
+                chucky12/${{ env.IMAGE_NAME }}:latest 
+                chucky12/${{ env.IMAGE_NAME }}:${{ github.sha }}
+  -->

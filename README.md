@@ -12,7 +12,7 @@ To transform a basic Node.js app into a fully automated, production-ready applic
 
 - **Node.js** (Express web server)
 - **Docker** (Multi-stage build)
-- **GitHub Actions** (CI/CD pipeline - coming next)
+- **GitHub Actions** (CI/CD pipeline)
 - **Kubernetes** (Manifests & deployment)
 - **Helm** (Reusable charts for multiple environments)
 - **Argo CD** (GitOps continuous delivery)
