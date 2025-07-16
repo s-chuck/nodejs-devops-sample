@@ -1,44 +1,52 @@
-### This repository is no longer maintained!
+# Node.js DevOps Sample Project
 
-**For the most up to date test app to get you started on Heroku, head on over to [`node-js-getting-started`](https://github.com/heroku/node-js-getting-started).**
+A simple Node.js web application that I am using to learn and implement end-to-end DevOps practices including CI/CD, containerization, Kubernetes, and GitOps.
+
+## 🚀 Project Goal
+
+To transform a basic Node.js app into a fully automated, production-ready application using modern DevOps tools and workflows.
 
 ---
 
-# node-js-sample
+## 🧰 Tech Stack
 
-A barebones Node.js app using [Express 4](http://expressjs.com/).
+- **Node.js** (Express web server)
+- **Docker** (Multi-stage build)
+- **GitHub Actions** (CI/CD pipeline - coming next)
+- **Kubernetes** (Manifests & deployment)
+- **Helm** (Reusable charts for multiple environments)
+- **Argo CD** (GitOps continuous delivery)
+- **Ingress + DNS** (Expose app with domain mapping)
+- **Monitoring** (Prometheus/Grafana - optional future addition)
 
-## Running Locally
+---
 
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+## 💻 Running Locally
 
-```sh
-git clone git@github.com:heroku/node-js-sample.git # or clone your own fork
-cd node-js-sample
+```bash
+# Install dependencies
 npm install
+
+# Start the app
 npm start
-```
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+# Open http://localhost:5000 in your browser
 
-## Deploying to Heroku
 
-```
-heroku create
-git push heroku master
-heroku open
-```
+🐳 Running with Docker
+# Build the Docker image
+docker build -t nodejs-devops-sample .
 
-Alternatively, you can deploy your own copy of the app using the web-based flow:
+# Run the container
+docker run -p 5000:5000 nodejs-devops-sample
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-## Documentation
 
-For more information about using Node.js on Heroku, see these Dev Center articles:
+📦 Project Structure
+.
+├── Dockerfile          # Multi-stage build for Node.js app
+├── index.js            # Main server file
+├── package.json        # Dependencies and scripts
+├── README.md           # You’re reading it
 
-- [10 Habits of a Happy Node Hacker](https://blog.heroku.com/archives/2014/3/11/node-habits)
-- [Getting Started with Node.js on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
-- [Heroku Node.js Support](https://devcenter.heroku.com/articles/nodejs-support)
-- [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
-- [Using WebSockets on Heroku with Node.js](https://devcenter.heroku.com/articles/node-websockets)
+
