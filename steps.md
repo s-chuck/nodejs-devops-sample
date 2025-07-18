@@ -100,18 +100,8 @@ Follows a recipe book (YAMLs) to make things consistent
 -> Auto restart your whole app if it crashes.
 -> Scale up and Scale down(auto scale)
 
-# What is a Node and a pod -> a pod is nothing but a group of containers working together to run an application, as one app have many things to do that's why we using multi containers(pod) in k8s. Node on the other hand is like a building and pod is like a single appartment, one node consist of many pods.
-
-# What is a k8s cluster -> it's like a group of machine(real or virtual) that works together to run the application.
-Now we can setup k8 cluster in our local machine using minikube or kind. 
-
-When you run minikube start, it creates a single VM that behaves like a full Kubernetes cluster, acting as both the control plane (master) and the worker node.
-Inside this VM:
-You define how many pods should run (via deployment YAML)
-Kubernetes runs those pods inside the VM
-Each pod is like a wrapper for your containerized app
-The control plane monitors and manages these pods automatically
-                    
+#kubernetes Architecture
+**********Master_Node(ApiServer, Controller manager, Schedular , ETCD) -> Worker Node(kubectl, kuber-proxy => pods)***********
 Visual: [ Your Host Laptop ]
      ↓
 [ Minikube VM ]  ← Created via `minikube start`
@@ -120,7 +110,15 @@ Visual: [ Your Host Laptop ]
          ├─ Pod 1 (runs container: your app)
          ├─ Pod 2 (runs container: your app)
          └─ Pod N ...
+1. We have something called Master Node or Control Panel 
+=> it consist of APISERVER(any request from client first comes here) -> it sends it to SCHEDULAR(saying we have this request schedule this to a node) -> At the same time APISERVER sends that request to CONTROLLER MANAGER(it have many controllers liek deployment controller , ReplicaSet controller) it overlooks all the objects using individual controllers and compares their actual state with the desired state if it's same then nothing it's working fine if not it takes action. -> Now the last thing in Control Panel is ETCD(it's a nosql database) store key value pairs all the info about nodes, pods, client requests etc.
 
+2. Now we have Worker Nodes
+=> Every worker node have kubectl and kube-proxy the kube-proxy allows inter communication b/w pods inside the same worker node and kubectl gets the request from control panel and execute them and sends the response to apiserver.Where the response is checked by Controller manager and the process goes on
+
+EX. Now if a user says to create a pod , the user will use kubectl client(a client which is basically used to talk to our k8s application) after that ApiServer will receive the request it authenticate and validate the request if it's came from a valid client then sends an entry to ETCD to make a create pod entry , after that sends the instruction of creating a pod to schedular to find a node to create the pod , the schedular will find a node and sends it's details to apiserver then apiserver will contact the worker node and tell them to create the pod after receiving the response it again sends that detail to ETCD to store when this pod is created and where and then responds to user.
+
+                    
 # Now let's understand the file and file system in k8s
 k8s uses yaml files to describe what you want to do with cluster.
 -> Each .yaml file that we write is known as k8s objects. Objets are nothing but a blueprint that tells k8s what to do. Below is the list of most commonly used objects in K8s
@@ -129,44 +127,41 @@ k8s uses yaml files to describe what you want to do with cluster.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deploy
+  name: nginx-deploy(name is given if we have to call this in future -> kubectl port-forward svc/nodejs-service) refer to service.yaml. in this command we are calling svc(service)/nodejs-service(with it's name specified in metadata)
 spec:
   replicas: 3
-
+-> These above 4 are the most imp. fields apiVersion, kind, metadata, spec.
+-> In yaml sometimes we use (-) it is to tell that below these components are list.
 ->Service	                   Gives your app a stable IP or DNS name so others can access it
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-service
-spec:
-  selector:
-  ports:
+Here we configure the port in which the application works inside the container and if we want to acess the same thing we have to do port mapping. Just like we do in docker as container are whole new and insolated env. so whatever inside it doesn't affect the outside world. kubectl port-forward svc/nodejs-service 3000:80(3000 is the outside port we want to forward the container results.)
+localhost:3000 → service (port 80) → pod (port 5000)
 
-
+ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+Here what is happening is port 80 is the port through which we can talk to k8s cluster the outside world and 5000 is the port which runs inside the container. 
 ->Namespace	               Organizes resources into separate folders or teams
-
 ->Ingress	                   Exposes your app to the internet, like setting up a gate
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: my-ingress
-spec:
-  rules:
-  
 ->ConfigMap/Secret	       Configuration or credentials for your app
-apiVersion: v1                                        
-kind: ConfigMap
-metadata:
-  name: app-config
-data:
-  DB_URL: "postgres://db:5432"
 
-apiVersion: v1
-kind: Secret
-metadata:
-  name: db-secret
-type: Opaque
-data:
-  DB_PASSWORD: cGFzc3dvcmQxMjM=  # "password123" in base64
+
+Some of the most imp. commands
+kubectl apply -f <file.yaml>          # Create or update resource
+kubectl delete -f <file.yaml>         # Delete resource
+kubectl create namespace <name>       # Create a namespace
+kubectl get pods                      # List pods
+kubectl get deployments               # List deployments
+kubectl get services                  # List services
+kubectl get namespaces                # List namespaces
+kubectl get all                       # Show all resources in current namespace
+kubectl describe pod <pod-name>       # Show detailed info (logs, events)
+kubectl logs <pod-name>               # View pod logs
+kubectl exec -it <pod-name> -- bash   # Enter running container
+kubectl get ns                        # List all namespaces
+kubectl config set-context --current --namespace=<ns>  # Switch current namespace
+kubectl config get-contexts
+kubectl config use-context <context-name>
+kubectl config view
 
  -->
