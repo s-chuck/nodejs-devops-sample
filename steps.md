@@ -165,3 +165,14 @@ kubectl config use-context <context-name>
 kubectl config view
 
  -->
+
+
+<!-- 
+Step 5: Helm: Helm is like a package manager for k8s , we have to manually deploy each object in k8s using helm we just have to run one command and all done. Ex. apt in linux or choco in windows , helm is like for k8s.
+
+-> Just like docker we upload our images in Helm we have something called charts(a chart is like set of k8s files bundled together.) in Artifacthub.io here all the charts are present and the running instance of that chart is known as Release.
+
+we have to install helm and set it's path in env. variables now we are all set to go
+
+-> Next step is to create a helm chart "helm create helm-nodejs" after that we would get a new directory in our root directory of helm-nodejs name it contains all the files and pre written code we don't have to make any changes into any of those files just to the values.yaml and Chart.yaml and all the other files extract the values from those so no need to do manually update values in all of those.After updateing our files in templates folder,(helm install nodejs-app(release name) ./helm-nodejs) we now have to deploy our helm chart into our k8 cluster. When a chart is up and running it's called release.
+ -->
