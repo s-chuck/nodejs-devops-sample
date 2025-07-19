@@ -176,3 +176,19 @@ we have to install helm and set it's path in env. variables now we are all set t
 
 -> Next step is to create a helm chart "helm create helm-nodejs" after that we would get a new directory in our root directory of helm-nodejs name it contains all the files and pre written code we don't have to make any changes into any of those files just to the values.yaml and Chart.yaml and all the other files extract the values from those so no need to do manually update values in all of those.After updateing our files in templates folder,(helm install nodejs-app(release name) ./helm-nodejs) we now have to deploy our helm chart into our k8 cluster. When a chart is up and running it's called release.
  -->
+
+<!-- 
+Step 6: Ingres(Ingress is an API object that manages external access to services in a cluster, typically over HTTP/HTTPS.)
+In simple terms whatever service is running inside your k8s cluster we have to do kubectl port-forward 5000:80 so that this service can be acessed outside the browser.
+-> Think of it as a smart router that exposes your internal services to the outside world.
+-> It provides rules for routing external traffic to the right service and path.
+-> Ingress works with an Ingress Controller (like NGINX) to manage actual traffic flow.
+
+EX. Suppose your website has this url for your website now ingres doesn't change the url or domain name all of this would be same just the thing is we would be able to acess whatever is inside the cluster.
+Home Page: https://fun.com/home
+
+Contact Page: https://fun.com/contact_us
+
+API: https://fun.com/api
+
+ -->
