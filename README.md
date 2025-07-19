@@ -15,8 +15,8 @@ To transform a basic Node.js app into a fully automated, production-ready applic
 - **GitHub Actions** (CI/CD pipeline)
 - **Kubernetes** (Manifests & deployment)
 - **Helm** (Reusable charts for multiple environments)
-- **Argo CD** (GitOps continuous delivery)
 - **Ingress + DNS** (Expose app with domain mapping)
+- **Argo CD** (GitOps continuous delivery)
 - **Monitoring** (Prometheus/Grafana - optional future addition)
 
 ---
