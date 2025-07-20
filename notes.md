@@ -11,6 +11,28 @@
         } 
     we can make our own custom labels too for ex. team: frontend-team4 like that.
 5.Spec: It is like a blueprint that tells how things should behave.It's a place where we tell k8s what to create , of what type, with how much memory and everything related to.
+ -> Now let's understand how does spec behave and some of the tags inside it.
+(
+-> First understand this story 
+-> we create labels to individually identify the pods and for one more thing is to create an entry in ETCD for that k8s object saying this object has this label and just we talked above spec is like a blueprint for the k8s, so selector.matchLabels most of the time is similar to the above metadata.label to tell that the pods which have this lable is to be managed by this selector.
+->Then we have another thing template.metadata.label now this one should be same as selector.matchLabels it is compulsory or either we would get an error. Now in template part we tell how pods should be created with what configurations and it would retreive info from ETCD about this specific label as The Deployment controller watches ETCD for updates and ensures the desired number of pods exist with the matching labels. ETCD doesn’t enforce, but stores, and controllers act on it.
+->Inside the template till now we have seen the part with metadata and labels and how they should be same with matcHLabels now comes the real configuration part we use another spec: inside the template as it is k8s syntax to define the blueprint inside the spec: tag so we use another spec: containers: to tell from where to find the image and what should be it's name and which port it should run.
+)
+spec:
+    replicas: 2(no. of replicas u want of application)
+    selector:
+        matchLabels:    
+            app: nginx 
+    Template:
+        metadata:
+            labels:
+                app: nginx
+    spec:
+      containers:
+        - name: nodejs-app
+          image: chucky12/nodejs-sample-app:latest
+          ports:
+            - containerPort: 5000
 6.Namspace: A namespace is a virtual cluster within a physical Kubernetes cluster, It is defined under metadata with key=namespace and value=(namespace name) before this we also have to create a namespace.yaml file and execute it first "kubectl create -f namespace.yaml" -> APISERVER -> ETCD (entry done) then we can use that namespace, it also provide logical isolation for:
 Resources (Pods, Deployments, Services, etc.), Access Control (RBAC), Network Policies, Resource Allocation
 Key Uses of Namespaces
