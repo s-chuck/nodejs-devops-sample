@@ -192,3 +192,25 @@ Contact Page: https://fun.com/contact_us
 API: https://fun.com/api
 
  -->
+
+ <!-- 
+ Step 7: Argo CD(Argo CD is a declarative GitOps continuous delivery tool for Kubernetes.
+It continuously monitors a Git repository and automatically applies the manifests (or Helm charts) to a Kubernetes cluster, ensuring the cluster state matches the Git-defined state.)
+  1. Install ArgoCD
+    kubectl create namespace argocd
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  2. acess ArgoCD using
+    kubectl port-forward svc/argocd-server -n argocd 8080:443
+  3. Get login credentials
+    kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d && echo
+  4. Configure the following details in the ArgoCD app.
+    Click “NEW APP”, then fill in:
+    App Name: nodejs-app
+    Project: default
+    Sync Policy: Manual or Auto (your choice)
+    Repo URL: your GitHub repo (must be public or connect private)
+    Path: path to Helm chart directory (e.g. helm-nodejs)
+    Cluster URL: https://kubernetes.default.svc
+    Namespace: default
+    Create.
+  -->
