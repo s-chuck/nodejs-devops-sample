@@ -7,8 +7,8 @@
         metadata: {
             name: "nginx-123",  // Primary key (unique)
             labels: {           // Queryable tags
-            app: "nginx",
-            env: "prod"
+                app: "nginx",
+                env: "prod"
             } 
     we can make our own custom labels too for ex. team: frontend-team4 like that.
 5.Spec:
@@ -67,4 +67,5 @@
         7. Multi-Tenancy	Host multiple clients/teams securely in one cluster.	client-a and client-b have separate namespaces.
         8. CI/CD Pipelines	Dedicated namespaces for stages (build, stage, prod).	ci namespace runs build pods; prod runs live apps.
         9. Billing/Chargeback	Track resource usage per namespace for cost allocation.	kubectl top pods -n team-a shows Team A’s resource consumption.
+7.
 -->
